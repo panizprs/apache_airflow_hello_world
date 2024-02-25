@@ -6,4 +6,5 @@ npm-debug.log
 lab/
 airflow/logs
 airflow/airflow*
+airflow/dags/__pycache__/
 .idea/
