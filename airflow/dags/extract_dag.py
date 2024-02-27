@@ -9,8 +9,8 @@ with DAG('extract_dag',
          start_date=datetime(2024, 2, 24),
          catchup=False) as dag:
 
-
-    file_path = Variable.get("TOP_LEVEL_DOMAIN_NAMES_FILE_PATH")
+    dir_path = Variable.get("TOP_LEVEL_DOMAIN_FILES_DIR")
+    file_path = f'{dir_path}/airflow-extract-data.csv'
     extract_task = BashOperator(
             task_id="extract_task",
             bash_command =f'wget -c https://datahub.io/core/top-level-domain-names/'

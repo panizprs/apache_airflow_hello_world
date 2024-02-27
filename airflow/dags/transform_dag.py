@@ -13,13 +13,17 @@ with DAG(
   catchup=False) as dag:
 
     def transform_data():
+        dir_path = Variable.get("TOP_LEVEL_DOMAIN_FILES_DIR")
         """Read in the file, and write a transformed file out"""
         today = date.today()
-        raw_data_file_path = Variable.get("TOP_LEVEL_DOMAIN_NAMES_FILE_PATH")
+        # raw_data_file_path = Variable.get("TOP_LEVEL_DOMAIN_NAMES_FILE_PATH")
+        raw_data_file_path = f'{dir_path}/airflow-extract-data.csv'
+
         df = pd.read_csv(raw_data_file_path)
         generic_type_df = df[df['Type'] == 'generic']
         generic_type_df['Date'] = today.strftime('%Y-%m-%d')
-        transformed_data_file_path = Variable.get("TOP_LEVEL_DOMAIN_NAMES_TRANSFORMED_FILE_PATH")
+        transformed_data_file_path = f'{dir_path}/airflow-transform-data.csv'
+        # transformed_data_file_path = Variable.get("TOP_LEVEL_DOMAIN_NAMES_TRANSFORMED_FILE_PATH")
         generic_type_df.to_csv(transformed_data_file_path, index=False)
 
     transform_task = PythonOperator(
